@@ -1,4 +1,4 @@
-# Calculate Revenue
+# Calculate Revenue #
 #
 # Given two arrays OF THE SAME SIZE, this program calculates their dot product
 # 
