@@ -1,0 +1,84 @@
+# Calculate Revenue
+#
+# Given two arrays OF THE SAME SIZE, this program calculates their dot product
+# 
+
+
+# Constants
+.eqv PRINT_INT  1
+.eqv PRINT_STR  4
+.eqv READ_INT  5
+.eqv TERMINATE  10
+
+		.data
+OutputString:	.asciiz "All tolled revenue: "
+
+
+		#.align 2	# Align the array on a 4-byte boundary
+		
+Prices:		.word  52, 112, 36, 95, 28, 16, 64
+Sales:		.word  120, 50, 65, 32, 152, 208, 23
+ArrayEnd:	.word 0	
+
+	.text
+main:
+	# Calculate no. of array elements
+	la $t2, ArrayEnd	
+	la $t1, Prices
+	la $t3, Sales
+	subu $a1, $t2, $t3	# $a1 contains the no. of bytes in the array
+	srl $a1, $a1, 2		# $a1 now contains no. of Price elements
+	
+	move $a3, $a1		# $a3 now contains the no. of Sales elements (price and sales always same size)
+	
+	
+	la $a0, OutputString
+	li $v0, PRINT_STR
+	syscall
+	
+	
+	move $a0, $t1		# $a0 now is contains the array address for Prices
+	move $a2, $t3		# $a2 now is contains the array address for Sales
+	
+	
+	
+	
+	jal arraydotproduct
+	
+	move $a0, $v0
+	li $v0, PRINT_INT
+	syscall
+	
+	
+	li $v0, TERMINATE  	# Exit program
+     	syscall
+.end main
+
+arraydotproduct:
+
+# Local vars used:
+#   $t0 - loop counter, "i"
+#   $t1 - temp storage of Prices element
+#   $t2 - temp storage of Sales element
+#   $v0 - accumulate the revenue
+
+
+
+	move $t0, $0		# loop counter
+	move $v0, $0		# Init return value
+	
+Loop:	
+	beq $t0, $a1, SrchReturn	# Branch if loop has run len times
+	lw $t1, ($a0)		# Load a value from the Prices array
+	lw $t2, ($a2)		# Load a value from the Sales array
+	mul $v1, $t1, $t2
+	add $v0, $v1, $v0
+	
+	
+	addi $a0, $a0, 4	# Increment address to next array element for Prices
+	addi $a2, $a2, 4	# Increment address to next array element for Sales
+	addi $t0, $t0, 1	# Increment loop counter
+	b Loop			# Do another iteration of the loop
+
+SrchReturn:	
+	jr $ra			# return to main
