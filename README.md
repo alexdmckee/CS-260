@@ -1,4 +1,5 @@
 # CS-260
 Learning git, repoing 260 code
 
-Following the tutorial and such. 
+Following the tutorial.
+
