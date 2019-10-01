@@ -1,5 +1,4 @@
 # CS-260
-Learning git, repoing 260 code
+Repoing some MIPS code.
 
-Following the tutorial.
 
